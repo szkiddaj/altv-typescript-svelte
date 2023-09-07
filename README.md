@@ -1,5 +1,5 @@
 <p align="center" style="font-size: 26px">
-	<b>Typescript Boilerplate for alt:V - v5.2.1</b>
+	<b>Typescript Boilerplate for alt:V with Svelte - v5.0.1</b>
 </p>
 <p align="center">
 	<img src="https://thumbs.gfycat.com/FabulousFlawlessLamb-size_restricted.gif" width="350" title="hover text">
@@ -11,33 +11,28 @@
 
 [💡 Need a Roleplay Script? Try Athena!](https://athenaframework.com/)
 
-# Variants
-
-- [TypeScript Boilerplate with Vue](https://github.com/Stuyk/altv-typescript-vue)
-- [TypeScript Boilerplate with React](https://github.com/Stuyk/altv-typescript-react)
-
 # Features
 
 A simple Typescript Boilerplate that builds incredibly fast using the [SWC Library](https://github.com/swc-project/swc).
 
-- Auto Refresh Server
-- Auto Compile TypeScript Files
-- Auto Download Resources
-- Single Resource Code Support
-- Fastest Auto Reconnect Time on Recompile
-- Compile Multiple Resources at Once
+-   Auto Refresh Server
+-   Auto Compile TypeScript Files
+-   Auto Download Resources
+-   Single Resource Code Support
+-   Fastest Auto Reconnect Time on Recompile
+-   Built-in Svelte for WebViews
 
 # Installation
 
-* [Install NodeJS 18+](https://nodejs.org/en/download/current/)
-* [Install GIT](https://git-scm.com/downloads)
+-   [Install NodeJS 18+](https://nodejs.org/en/download/current/)
+-   [Install GIT](https://git-scm.com/downloads)
 
 ## Clone the Repository
 
 Use the command below in any terminal, command prompt, etc.
 
 ```sh
-git clone https://github.com/Stuyk/altv-typescript
+git clone https://github.com/szkiddaj/altv-typescript-svelte
 ```
 
 ## Install the Repository
@@ -45,7 +40,7 @@ git clone https://github.com/Stuyk/altv-typescript
 Use the command below in any terminal, command prompt, etc.
 
 ```sh
-cd altv-typescript
+cd altv-typescript-svelte
 npm install
 ```
 
@@ -83,6 +78,14 @@ This will automatically reconnect your alt:V Client if you have `debug` mode tur
 npm run dev
 ```
 
+## WebView Previews
+
+If you need to modify the WebView and want to work out of the browser, use the following command.
+
+```
+npm run svelte-dev
+```
+
 ## End Server Runtime
 
 Use the key combination `ctrl + c` to kill your server in your terminal, command prompt, etc.
@@ -90,7 +93,3 @@ Use the key combination `ctrl + c` to kill your server in your terminal, command
 ## How to Add Mods, and New Resources
 
 Always add your already compiled resources & mods into the `resources` folder.
-
-## How to ignore specific resources from compiling
-
-Add file name `.nocompile` to the resource folder you want to ignore from compiling.

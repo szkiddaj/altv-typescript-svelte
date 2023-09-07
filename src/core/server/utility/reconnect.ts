@@ -1,5 +1,3 @@
-import * as alt from 'alt-server';
-
 const enum Status {
     Loading = 'LOADING',
     MainMenu = 'MAIN_MENU',
@@ -40,8 +38,4 @@ export async function connectLocalClient(): Promise<void> {
     } catch (error) {
         console.log(error);
     }
-}
-
-if (alt.debug) {
-    connectLocalClient();
 }
