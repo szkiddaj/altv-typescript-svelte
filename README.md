@@ -11,6 +11,8 @@
 
 [💡 Need a Roleplay Script? Try Athena!](https://athenaframework.com/)
 
+[📦 Want to use node packages on the client? Check out this!](https://github.com/szkiddaj/altv-typescript-svelte/tree/client-rollup)
+
 # Features
 
 A simple Typescript Boilerplate that builds incredibly fast using the [SWC Library](https://github.com/swc-project/swc).
