@@ -1,6 +1,21 @@
 {
     "compilerOptions": {
-        "typeRoots": ["./node_modules/@types", "./node_modules/@altv"],
+        "baseUrl": "src",
+        "paths": {
+            "@Shared/*": ["core/shared/*"],
+            "@Server/*": ["core/server/*"],
+            "@Client/*": ["core/client/*"],
+            "@View/*": ["../src-webviews/src/*"]
+        },
+        "typeRoots": [
+            "./node_modules/altv-esbuild/altv-enums/types",
+            "./node_modules/@types",
+            "./node_modules/@altv",
+            "./src/core/**/*.d.ts"
+        ],
+
+        // "strict": true,
+        "forceConsistentCasingInFileNames": true,
         "removeComments": true,
         "noUnusedLocals": false,
         "noUnusedParameters": false,
@@ -8,6 +23,7 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "allowJs": true,
+        "isolatedModules": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "module": "esNext",

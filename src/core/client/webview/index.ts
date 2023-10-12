@@ -1,14 +1,23 @@
 import * as alt from 'alt-client';
 import * as native from 'natives';
-import { WebViewEvents } from '../../shared/webviewEvents';
 
-const F2_KEY = 113;
+import { KeyCode } from 'altv-enums';
+import { WebViewEvents } from '@Shared/webviewEvents';
+import { ServerEvents } from '@Shared/serverEvents';
+
+const OPEN_KEY = KeyCode.F2;
+
 let view: alt.WebView;
 let isFocused = false;
+
+function spawnExampleVehicle() {
+    alt.emitServer(ServerEvents.spawnCar);
+}
 
 export function focusWebView() {
     if (isFocused) {
         view.unfocus();
+        view.off(WebViewEvents.spawnCar, spawnExampleVehicle);
         view.emit(WebViewEvents.toggleVisibility, false);
         alt.showCursor(false);
         alt.toggleGameControls(true);
@@ -17,6 +26,7 @@ export function focusWebView() {
     } else {
         view.focus();
         view.emit(WebViewEvents.toggleVisibility, true);
+        view.on(WebViewEvents.spawnCar, spawnExampleVehicle);
         alt.showCursor(true);
         alt.toggleGameControls(false);
         native.triggerScreenblurFadeIn(100);
@@ -25,7 +35,7 @@ export function focusWebView() {
 }
 
 alt.on('keydown', async (keyCode: number) => {
-    if (keyCode !== F2_KEY) {
+    if (keyCode !== OPEN_KEY) {
         return;
     }
 

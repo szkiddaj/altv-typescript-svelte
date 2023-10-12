@@ -6,8 +6,8 @@ gamemode = 'Freeroam'
 
 language = 'en'
 modules = ['js-module']
-name = 'TestServer'
-players = 911
+name = 'My Cool alt:V Server Built With Svelte 8)'
+players = 32
 port = 7788
 tags = ['customTag1', 'customTag2', 'customTag3', 'customTag4']
 

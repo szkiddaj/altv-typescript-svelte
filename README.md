@@ -1,8 +1,9 @@
 <p align="center" style="font-size: 26px">
-	<b>Typescript Boilerplate for alt:V with Svelte - v5.0.1</b>
+	<b>Typescript Boilerplate for alt:V with Svelte - v1.2</b>
 </p>
+
 <p align="center">
-	<img src="https://thumbs.gfycat.com/FabulousFlawlessLamb-size_restricted.gif" width="350" title="hover text">
+	<img src="https://i.imgur.com/10aPSUl.gif" width="100" title=":petsvelte:">
 </p>
 
 <p align="center">
@@ -11,15 +12,15 @@
 
 [💡 Need a Roleplay Script? Try Athena!](https://athenaframework.com/)
 
-[📦 Want to use node packages on the client? Check out this!](https://github.com/szkiddaj/altv-typescript-svelte/tree/client-rollup)
-
 # Features
 
-A simple Typescript Boilerplate that builds incredibly fast using the [SWC Library](https://github.com/swc-project/swc).
+A simple Typescript Boilerplate that builds incredibly fast using [SWC](https://github.com/swc-project/swc) and [Esbuild](https://github.com/evanw/esbuild) (with [altv-esbuild](https://github.com/xxshady/altv-esbuild)).
 
 -   Auto Refresh Server
 -   Auto Compile TypeScript Files
 -   Auto Download Resources
+-   Node Packages Can Be Used On Client
+-   Builds Into Single Client-Side File
 -   Single Resource Code Support
 -   Fastest Auto Reconnect Time on Recompile
 -   Built-in Svelte for WebViews

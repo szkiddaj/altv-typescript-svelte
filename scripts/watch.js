@@ -1,29 +1,31 @@
-
-import { spawnSync, spawn, ChildProcess } from 'node:child_process'
+import { spawnSync, spawn, ChildProcess } from 'node:child_process';
 import Watcher from 'watcher';
 import { writeToIpc, sleep } from './shared.js';
 
 const fileWatcher = new Watcher(['./src', './src-webviews'], { recursive: true, renameDetection: true });
-const isWindows = process.platform === "win32";
-const altvProcessName = isWindows ? './altv-server.exe' : './altv-server'
+const isWindows = process.platform === 'win32';
+const altvProcessName = isWindows ? './altv-server.exe' : './altv-server';
+const passedArguments = process.argv.slice(2).map((arg) => arg.replace('--', ''));
 
 /** @type {ChildProcess} */
-let childProcess = undefined
+let childProcess = undefined;
 let rebootDebounce = Date.now() + 0;
 
 async function compiler() {
-    console.log(`Starting Compile`)
-    const webviewProcess = spawn(isWindows ? 'npx.cmd' : 'npx', ['vite', 'build', './src-webviews'], { stdio: 'inherit' })
+    console.log(`Starting Compile`);
+    const webviewProcess = spawn(isWindows ? 'npx.cmd' : 'npx', ['vite', 'build', './src-webviews'], {
+        stdio: 'inherit',
+    });
 
-    spawnSync('node', ['./scripts/compiler.js'], { stdio: 'inherit' })
-    spawnSync('node', ['./scripts/transform.js'], { stdio: 'inherit' })
+    spawnSync('node', ['./scripts/compiler.js'], { stdio: 'inherit' });
+    spawnSync('node', ['./scripts/transform.js'], { stdio: 'inherit' });
 
     await new Promise((resolve) => {
         webviewProcess.on('exit', resolve);
-    })
+    });
 
-    spawnSync('node', ['./scripts/copy.js'], { stdio: 'inherit' })
-    console.log(`Compile Complete`)
+    spawnSync('node', ['./scripts/copy.js'], { stdio: 'inherit' });
+    console.log(`Compile Complete`);
 }
 
 async function reboot() {
@@ -34,10 +36,14 @@ async function reboot() {
     rebootDebounce = Date.now() + 1000;
     writeToIpc('kick-all');
     await sleep(250);
+
+    const isDev = passedArguments.includes('dev');
+    process.env.IS_DEV_MODE = isDev === true;
+
     if (childProcess) {
         try {
             childProcess.kill();
-        } catch (err) { }
+        } catch (err) {}
 
         await new Promise((resolve) => {
             const interval = setInterval(() => {
@@ -46,15 +52,15 @@ async function reboot() {
                     return;
                 }
 
-                childProcess = undefined
+                childProcess = undefined;
                 clearInterval(interval);
                 resolve();
             }, 100);
-        })
+        });
     }
 
     await compiler();
-    childProcess = spawn(altvProcessName, { stdio: 'inherit' })
+    childProcess = spawn(altvProcessName, { stdio: 'inherit' });
 }
 
 function start() {

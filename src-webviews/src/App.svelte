@@ -3,9 +3,13 @@
     import viteLogo from '/vite.svg';
     import Counter from './lib/Counter.svelte';
 
-    import { WebViewEvents } from '../../src/core/shared/webviewEvents';
+    import { WebViewEvents } from '@Shared/webviewEvents';
 
     let isVisible = false;
+
+    const onSpawnButtonClick = () => {
+        alt.emit(WebViewEvents.spawnCar);
+    };
 
     alt.on(WebViewEvents.toggleVisibility, (newState: boolean) => {
         isVisible = newState;
@@ -25,8 +29,12 @@
 
         <h1>Vite + Svelte</h1>
 
-        <div class="card">
-            <Counter />
+        <div class="buttons">
+            <div class="card" style="margin-right: 4pt;">
+                <Counter />
+            </div>
+
+            <button on:click={onSpawnButtonClick}> Spawn car </button>
         </div>
 
         <p>
@@ -45,13 +53,22 @@
         will-change: filter;
         transition: filter 300ms;
     }
+
     .logo:hover {
         filter: drop-shadow(0 0 2em #646cffaa);
     }
+
     .logo.svelte:hover {
         filter: drop-shadow(0 0 2em #ff3e00aa);
     }
+
     .read-the-docs {
         color: #888;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

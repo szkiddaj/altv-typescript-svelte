@@ -1,7 +1,12 @@
-import fs from 'fs-extra'
+import fs from 'fs-extra';
 import * as glob from 'glob';
-import swc from '@swc/core'
-import { normalizeFilePath } from './shared.js';
+import * as path from 'path';
+
+import swc from '@swc/core';
+import esbuild from 'esbuild';
+import { altvEsbuild } from 'altv-esbuild';
+
+import { normalizeFilePath, sanitizePath } from './shared.js';
 
 const SWC_CONFIG = {
     jsc: {
@@ -19,21 +24,76 @@ const SWC_CONFIG = {
     sourceMaps: false,
 };
 
-const startTime = Date.now();
-const filesToCompile = glob.sync('./src/core/**/*.ts');
+const ESBUILD_BUNDLE_PATH = path.resolve('./resources/core/client/startup.js');
+const ESBUILD_CONFIG = {
+    entryPoints: ['./src/core/client/startup.ts'],
+    outfile: ESBUILD_BUNDLE_PATH,
 
-if (fs.existsSync('resources/core')) {
-    fs.rmSync('resources/core', { force: true, recursive: true });
-}
+    plugins: [
+        altvEsbuild({
+            mode: 'client',
 
+            altvEnums: true,
+            bugFixes: {
+                playerDamageOnFirstConnect: true,
+            },
+        }),
+    ],
 
-let compileCount = 0;
-for (let i = 0; i < filesToCompile.length; i++) {
-    const filePath = normalizeFilePath(filesToCompile[i]);
-    const finalPath = filePath.replace('src/', 'resources/').replace('.ts', '.js');
-    const compiled = swc.transformFileSync(filePath, SWC_CONFIG);
-    fs.outputFileSync(finalPath, compiled.code, { encoding: 'utf-8' });
-    compileCount += 1;
-}
+    minify: !process.env.IS_DEV_MODE,
 
-console.log(`${compileCount} Files Built | ${Date.now() - startTime}ms`);;
+    bundle: true,
+    target: 'esnext',
+    logLevel: 'silent',
+    format: 'esm',
+};
+
+(async () => {
+    const resolvePaths = (file, rawCode) => {
+        const cleanedPath = file.replace(sanitizePath(process.cwd()), '');
+        const pathSplit = cleanedPath.split('/');
+        pathSplit.pop();
+
+        let depth = 0;
+        while (pathSplit[pathSplit.length - 1] !== 'core') {
+            pathSplit.pop();
+            depth += 1;
+        }
+
+        rawCode = rawCode.replaceAll(`@Server`, `../`.repeat(depth) + `server`);
+        rawCode = rawCode.replaceAll(`@Client`, `../`.repeat(depth) + `client`);
+        rawCode = rawCode.replaceAll(`@Shared`, `../`.repeat(depth) + `shared`);
+
+        return rawCode;
+    };
+
+    const transformFileNormal = (filePath) => {
+        filePath = normalizeFilePath(filePath);
+        const finalPath = filePath.replace('src/', 'resources/').replace('.ts', '.js');
+
+        let rawCode = fs.readFileSync(filePath, { encoding: 'utf-8' });
+        rawCode = resolvePaths(filePath, rawCode);
+
+        const compiled = swc.transformSync(rawCode, SWC_CONFIG);
+
+        fs.outputFileSync(finalPath, compiled.code, { encoding: 'utf-8' });
+    };
+
+    const startTime = Date.now();
+    let compileCount = 0;
+
+    if (fs.existsSync('resources/core')) {
+        fs.rmSync('resources/core', { force: true, recursive: true });
+    }
+
+    const swcFiles = glob.sync('./src/core/@(server|shared)/**/*.ts');
+    for (let i = 0; i < swcFiles.length; i++) {
+        transformFileNormal(swcFiles[i]);
+        compileCount += 1;
+    }
+
+    await esbuild.build(ESBUILD_CONFIG);
+    compileCount += glob.sync('./src/core/client/**/*.ts').length;
+
+    console.log(`${compileCount} Files Built | ${Date.now() - startTime}ms`);
+})();
