@@ -14,7 +14,7 @@
 
 # Features
 
-A simple Typescript Boilerplate that builds incredibly fast using [SWC](https://github.com/swc-project/swc) and [Esbuild](https://github.com/evanw/esbuild) (with [altv-esbuild](https://github.com/xxshady/altv-esbuild)).
+A simple Typescript Boilerplate that builds incredibly fast using [SWC](https://github.com/swc-project/swc) and [Esbuild](https://github.com/evanw/esbuild).
 
 -   Auto Refresh Server
 -   Auto Compile TypeScript Files

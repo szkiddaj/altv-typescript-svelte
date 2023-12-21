@@ -7,12 +7,7 @@
             "@Client/*": ["core/client/*"],
             "@View/*": ["../src-webviews/src/*"]
         },
-        "typeRoots": [
-            "./node_modules/altv-esbuild/altv-enums/types",
-            "./node_modules/@types",
-            "./node_modules/@altv",
-            "./src/core/**/*.d.ts"
-        ],
+        "typeRoots": ["./node_modules/@types", "./node_modules/@altv", "./src/core/**/*.d.ts"],
 
         // "strict": true,
         "forceConsistentCasingInFileNames": true,
