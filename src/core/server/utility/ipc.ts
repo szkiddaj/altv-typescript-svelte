@@ -1,4 +1,4 @@
-import * as alt from 'alt-server';
+import * as alt from '@altv/server';
 import fs from 'fs';
 
 const FILE_NAME = 'ipc.txt';
@@ -18,7 +18,7 @@ function onChange() {
     }
 }
 
-if (alt.debug) {
+if (alt.isDebug) {
     if (fs.existsSync(FILE_NAME)) {
         fs.rmSync(FILE_NAME);
     }

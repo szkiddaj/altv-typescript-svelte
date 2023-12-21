@@ -5,7 +5,7 @@ website = 'test.com'
 gamemode = 'Freeroam'
 
 language = 'en'
-modules = ['js-module']
+modules = ['js-module-v2']
 name = 'My Cool alt:V Server Built With Svelte 8)'
 players = 32
 port = 7788
@@ -26,6 +26,3 @@ host = '0.0.0.0'
 [js-module]
 global-webcrypto = true
 global-fetch = true
-
-[voice]
-bitrate = 64000

@@ -4,7 +4,6 @@ import * as path from 'path';
 
 import swc from '@swc/core';
 import esbuild from 'esbuild';
-import { altvEsbuild } from 'altv-esbuild';
 
 import { normalizeFilePath, sanitizePath } from './shared.js';
 
@@ -29,22 +28,12 @@ const ESBUILD_CONFIG = {
     entryPoints: ['./src/core/client/startup.ts'],
     outfile: ESBUILD_BUNDLE_PATH,
 
-    plugins: [
-        altvEsbuild({
-            mode: 'client',
-
-            altvEnums: true,
-            bugFixes: {
-                playerDamageOnFirstConnect: true,
-            },
-        }),
-    ],
-
     minify: !process.env.IS_DEV_MODE,
 
     bundle: true,
     target: 'esnext',
-    logLevel: 'silent',
+    // logLevel: 'silent',
+    external: ['@altv/client', '@altv/natives', '@altv/shared'],
     format: 'esm',
 };
 

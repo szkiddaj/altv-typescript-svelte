@@ -1,3 +1,5 @@
+import * as alt from '@altv/server';
+
 const enum Status {
     Loading = 'LOADING',
     MainMenu = 'MAIN_MENU',
@@ -31,9 +33,11 @@ export async function connectLocalClient(): Promise<void> {
     }
 
     try {
+        const serverPassword = (alt.serverConfig.password as unknown as string) ?? 'serverPassword';
+
         await fetch(`http://127.0.0.1:${DEBUG_PORT}/reconnect`, {
             method: 'POST',
-            body: alt.getServerConfig()?.password || "serverPassword",
+            body: serverPassword,
         });
     } catch (error) {
         console.log(error);

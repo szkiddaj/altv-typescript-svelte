@@ -12,5 +12,6 @@ data/
 cache/
 crashdumps/
 package-lock.json
+yarn.lock
 ipc.txt
 src-webviews/vite.config.ts.timestamp*
