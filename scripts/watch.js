@@ -14,6 +14,7 @@ let rebootDebounce = Date.now() + 0;
 async function compiler() {
     console.log(`Starting Compile`);
     const webviewProcess = spawn(isWindows ? 'npx.cmd' : 'npx', ['vite', 'build', './src-webviews'], {
+        shell: true,
         stdio: 'inherit',
     });
 
